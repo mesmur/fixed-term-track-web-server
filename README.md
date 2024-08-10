@@ -14,7 +14,8 @@ Fixed Term Track was built to help me track my Fixed Term investments (not that 
 It would help me aggregate these investments and track their maturity dates, giving me a heads-up on any upcoming maturities / return dates.
 
 At the moment though, this is a work in progress, and I'm still figuring out the best way to structure the data and the application.
-(and how to interface with it, although I'm just leaning towards a mobile app to get some practice >:))
+
+Aaaand how to interface with it, although I'm just leaning towards a mobile app to get some practice >:)
 
 ## Features
 
