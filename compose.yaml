@@ -1,0 +1,12 @@
+name: fixed-term-track-web-server
+services:
+  postgres:
+    image: 'postgres:16.2'
+    environment:
+      - POSTGRES_USER=test
+      - POSTGRES_PASSWORD=test
+      - POSTGRES_DB=test
+    ports:
+      - "54320:5432"
+    volumes:
+      - ./.docker/postgres:/var/lib/postgresql/data
