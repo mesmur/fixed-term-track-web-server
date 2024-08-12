@@ -29,10 +29,10 @@ func CreateTelegramSdk(botToken string, chatID int64) TelegramSdk {
 }
 
 func (t *telegramSdk) SendMessage(message string) error {
-	logger.Sugar.Info("Creating message")
+	logger.Log.Info("Creating message")
 	msg := tgbotapi.NewMessage(t.chatID, message)
 
-	logger.Sugar.Info("Sending  message")
+	logger.Log.Info("Sending  message")
 	if _, err := t.bot.Send(msg); err != nil {
 		log.Panic(err)
 	}

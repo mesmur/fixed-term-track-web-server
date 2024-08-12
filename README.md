@@ -32,19 +32,19 @@ Some nifty parts of it:
 
 - Database: PostgreSQL
 - CI/CD: GitHub Actions (WIP)
-- Build: Docker (WIP)
-- Deployment: Fly.io (WIP)
+- Build: --
+- Deployment: --
 - Notifications: Telegram Bot API
 
 ### Tools and Libraries
 
-- ORM: GORM
-- Web Framework: Gin
-- Logging: Zap
-- Environment Management: Viper
+- ORM: [GORM](https://github.com/go-gorm/gorm)
+- Web Framework: [Gin](https://github.com/gin-gonic/gin)
+- Logging: [Zap](https://github.com/uber-go/zap)
+- Environment Management: [Viper](https://github.com/spf13/viper)
 - Development
-  - Docker (Compose) for local development
-  - Air for hot reloading
+  - [Docker (Compose)](https://docs.docker.com/compose/) for local development
+  - [Air](https://github.com/air-verse/air) for hot reloading
   - [Just](https://github.com/casey/just) for command running
   - [Mise](https://github.com/jdx/mise) for version management
 

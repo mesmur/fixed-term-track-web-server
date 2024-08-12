@@ -3,7 +3,6 @@ package services
 import (
 	"fmt"
 	"github.com/MESMUR/fixed-term-track-web-server/internal/database/models"
-	"github.com/MESMUR/fixed-term-track-web-server/pkg/logger"
 	"github.com/MESMUR/fixed-term-track-web-server/repositories"
 	"strconv"
 	"time"
@@ -33,7 +32,6 @@ func (s *fixedTermService) FindByID(id uint) (*models.FixedTerm, error) {
 
 func (s *fixedTermService) Create(fixedTerm *models.FixedTerm) (*models.FixedTerm, error) {
 	fixedTerm.MaturityDate = calculateMaturityDate(fixedTerm)
-	logger.Sugar.Info("Maturity date: ", fixedTerm.MaturityDate)
 
 	fixedTerm, err := s.fixedTermRepository.Create(fixedTerm)
 
