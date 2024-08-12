@@ -1,11 +1,13 @@
 package controllers
 
 import (
-	"github.com/MESMUR/fixed-term-track-web-server/internal/database/models"
-	"github.com/MESMUR/fixed-term-track-web-server/services"
-	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
+
+	"github.com/gin-gonic/gin"
+
+	"github.com/MESMUR/fixed-term-track-web-server/internal/database/models"
+	"github.com/MESMUR/fixed-term-track-web-server/services"
 )
 
 type FixedTermController struct {

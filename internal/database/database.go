@@ -2,11 +2,13 @@ package database
 
 import (
 	"fmt"
+
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
+
 	"github.com/MESMUR/fixed-term-track-web-server/config"
 	"github.com/MESMUR/fixed-term-track-web-server/internal/database/models"
 	"github.com/MESMUR/fixed-term-track-web-server/pkg/logger"
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
 )
 
 func ConnectPostgres() *gorm.DB {

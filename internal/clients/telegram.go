@@ -1,9 +1,11 @@
 package clients
 
 import (
-	"github.com/MESMUR/fixed-term-track-web-server/pkg/logger"
-	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"log"
+
+	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
+
+	"github.com/MESMUR/fixed-term-track-web-server/pkg/logger"
 )
 
 type telegramSdk struct {

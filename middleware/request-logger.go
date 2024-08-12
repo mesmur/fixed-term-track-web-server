@@ -2,11 +2,13 @@ package middleware
 
 import (
 	"bytes"
-	"github.com/MESMUR/fixed-term-track-web-server/pkg/logger"
-	"github.com/gin-gonic/gin"
-	"go.uber.org/zap"
 	"io"
 	"time"
+
+	"github.com/gin-gonic/gin"
+	"go.uber.org/zap"
+
+	"github.com/MESMUR/fixed-term-track-web-server/pkg/logger"
 )
 
 func RequestLogger() gin.HandlerFunc {

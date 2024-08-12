@@ -1,10 +1,11 @@
 package routes
 
 import (
+	"github.com/gin-gonic/gin"
+
 	"github.com/MESMUR/fixed-term-track-web-server/controllers"
 	"github.com/MESMUR/fixed-term-track-web-server/middleware"
 	"github.com/MESMUR/fixed-term-track-web-server/pkg/logger"
-	"github.com/gin-gonic/gin"
 )
 
 func SetupRouter(fixedTermController *controllers.FixedTermController) *gin.Engine {

@@ -1,10 +1,12 @@
 package config
 
 import (
-	"github.com/MESMUR/fixed-term-track-web-server/pkg/logger"
-	"github.com/spf13/viper"
 	"log"
 	"time"
+
+	"github.com/spf13/viper"
+
+	"github.com/MESMUR/fixed-term-track-web-server/pkg/logger"
 )
 
 type Config struct {

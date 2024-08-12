@@ -2,9 +2,10 @@ package middleware
 
 import (
 	"encoding/base64"
-	"github.com/MESMUR/fixed-term-track-web-server/config"
 	"net/http"
 	"strings"
+
+	"github.com/MESMUR/fixed-term-track-web-server/config"
 
 	"github.com/gin-gonic/gin"
 )

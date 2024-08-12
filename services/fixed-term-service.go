@@ -2,10 +2,11 @@ package services
 
 import (
 	"fmt"
-	"github.com/MESMUR/fixed-term-track-web-server/internal/database/models"
-	"github.com/MESMUR/fixed-term-track-web-server/repositories"
 	"strconv"
 	"time"
+
+	"github.com/MESMUR/fixed-term-track-web-server/internal/database/models"
+	"github.com/MESMUR/fixed-term-track-web-server/repositories"
 )
 
 type FixedTermService interface {

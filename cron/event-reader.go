@@ -1,11 +1,12 @@
 package cron
 
 import (
+	"time"
+
 	"github.com/MESMUR/fixed-term-track-web-server/internal/clients"
 	"github.com/MESMUR/fixed-term-track-web-server/internal/database/models"
 	"github.com/MESMUR/fixed-term-track-web-server/pkg/logger"
 	"github.com/MESMUR/fixed-term-track-web-server/repositories"
-	"time"
 )
 
 type EventReader struct {

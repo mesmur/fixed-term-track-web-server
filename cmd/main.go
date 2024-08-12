@@ -1,6 +1,8 @@
 package main
 
 import (
+	"github.com/gin-gonic/gin"
+
 	"github.com/MESMUR/fixed-term-track-web-server/config"
 	"github.com/MESMUR/fixed-term-track-web-server/controllers"
 	"github.com/MESMUR/fixed-term-track-web-server/cron"
@@ -10,7 +12,6 @@ import (
 	"github.com/MESMUR/fixed-term-track-web-server/repositories"
 	routes "github.com/MESMUR/fixed-term-track-web-server/router"
 	"github.com/MESMUR/fixed-term-track-web-server/services"
-	"github.com/gin-gonic/gin"
 )
 
 func main() {
