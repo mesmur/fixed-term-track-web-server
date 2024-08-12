@@ -28,7 +28,7 @@ func ConnectPostgres() *gorm.DB {
 		logger.Sugar.Fatalf("Failed to connect to database: %v", err)
 	}
 
-	err = db.AutoMigrate(&models.Investment{}, &models.InvestmentReturn{}, &models.Event{})
+	err = db.AutoMigrate(&models.FixedTerm{}, &models.FixedTermReturn{}, &models.Event{})
 
 	if err != nil {
 		logger.Sugar.Fatalf("Failed to migrate: %v", err)

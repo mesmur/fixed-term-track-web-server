@@ -21,13 +21,13 @@ func main() {
 
 	db := database.ConnectPostgres()
 
-	investmentRepository := repositories.NewInvestmentRepository(db)
-	investmentReturnRepository := repositories.NewInvestmentReturnRepository(db)
+	fixedTermRepository := repositories.NewFixedTermRepository(db)
+	fixedTermReturnRepository := repositories.NewFixedTermReturnRepository(db)
 	eventRepository := repositories.NewEventRepository(db)
-	investmentService := services.NewInvestmentService(investmentRepository, investmentReturnRepository, eventRepository)
-	investmentController := controllers.NewUserController(investmentService)
+	fixedTermService := services.NewFixedTermService(fixedTermRepository, fixedTermReturnRepository, eventRepository)
+	fixedTermController := controllers.NewFixedTermController(fixedTermService)
 
-	router := routes.SetupRouter(investmentController)
+	router := routes.SetupRouter(fixedTermController)
 
 	telegramSdk := clients.CreateTelegramSdk(config.AppConfig.TelegramBotToken, config.AppConfig.TelegramChatID)
 	eventReader := cron.NewEventReader(eventRepository, telegramSdk)

@@ -12,7 +12,7 @@ type telegramSdk struct {
 }
 
 type TelegramSdk interface {
-	SendTelegramMessage(message string) error
+	SendMessage(message string) error
 }
 
 func CreateTelegramSdk(botToken string, chatID int64) TelegramSdk {
@@ -28,7 +28,7 @@ func CreateTelegramSdk(botToken string, chatID int64) TelegramSdk {
 	}
 }
 
-func (t *telegramSdk) SendTelegramMessage(message string) error {
+func (t *telegramSdk) SendMessage(message string) error {
 	logger.Sugar.Info("Creating message")
 	msg := tgbotapi.NewMessage(t.chatID, message)
 

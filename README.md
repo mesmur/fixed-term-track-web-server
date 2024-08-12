@@ -11,7 +11,7 @@ FYI: This is my first time writing `go` code in a 'realistic' project so - don't
 
 Fixed Term Track was built to help me track my Fixed Term investments (not that I have a lot of them ha.)
 
-It would help me aggregate these investments and track their maturity dates, giving me a heads-up on any upcoming maturities / return dates.
+It would help me aggregate these term investments and track their maturity dates, giving me a heads-up on any upcoming maturities / return dates.
 
 At the moment though, this is a work in progress, and I'm still figuring out the best way to structure the data and the application.
 

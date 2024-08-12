@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func SetupRouter(investmentController *controllers.InvestmentController) *gin.Engine {
+func SetupRouter(fixedTermController *controllers.FixedTermController) *gin.Engine {
 	logger.Log.Info("Setting up routes")
 
 	router := gin.New()
@@ -17,13 +17,13 @@ func SetupRouter(investmentController *controllers.InvestmentController) *gin.En
 	router.Use(middleware.BasicAuthentication())
 	router.Use(middleware.RequestLogger())
 
-	investmentRoutes := router.Group("/investments")
+	fixedTermRoutes := router.Group("/fixed_terms")
 	{
-		investmentRoutes.GET("/:investment_id", investmentController.GetInvestmentByID)
-		investmentRoutes.POST("/", investmentController.CreateInvestment)
-		investmentRoutes.PUT("/", investmentController.UpdateInvestment)
-		investmentRoutes.GET("/:investment_id/returns/:return_id", investmentController.GetInvestmentReturnByID)
-		investmentRoutes.POST("/:investment_id/returns", investmentController.CreateInvestmentReturn)
+		fixedTermRoutes.GET("/:fixed_term_id", fixedTermController.GetFixedTermByID)
+		fixedTermRoutes.POST("/", fixedTermController.CreateFixedTerm)
+		fixedTermRoutes.PUT("/", fixedTermController.UpdateFixedTerm)
+		fixedTermRoutes.GET("/:fixed_term_id/returns/:return_id", fixedTermController.GetReturnByID)
+		fixedTermRoutes.POST("/:fixed_term_id/returns", fixedTermController.CreateReturn)
 	}
 
 	return router

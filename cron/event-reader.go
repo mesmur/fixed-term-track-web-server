@@ -2,6 +2,7 @@ package cron
 
 import (
 	"github.com/MESMUR/fixed-term-track-web-server/internal/clients"
+	"github.com/MESMUR/fixed-term-track-web-server/internal/database/models"
 	"github.com/MESMUR/fixed-term-track-web-server/pkg/logger"
 	"github.com/MESMUR/fixed-term-track-web-server/repositories"
 	"time"
@@ -17,19 +18,13 @@ func NewEventReader(eventRepo repositories.EventRepository, telegram clients.Tel
 }
 
 func (er *EventReader) CheckEvents() {
-	ticker := time.NewTicker(10 * time.Second)
+	ticker := time.NewTicker(8 * time.Hour)
 	defer ticker.Stop()
 
 	for {
 		select {
 		case <-ticker.C:
 			logger.Log.Info("Checking for scheduled events")
-
-			err := er.telegram.SendTelegramMessage("Checking for scheduled events")
-
-			if err != nil {
-				logger.Sugar.Error("Error sending telegram message: ", err)
-			}
 
 			events, err := er.eventRepo.FindScheduledEvents()
 
@@ -39,17 +34,34 @@ func (er *EventReader) CheckEvents() {
 			}
 
 			for _, event := range events {
-				// Process each event
 				logger.Sugar.Infof("Processing event: %v", event)
-				// Add your event processing logic here
 
-				// Update the event status
-				err := er.eventRepo.UpdateStatus(event.ID)
-
-				if err != nil {
-					logger.Sugar.Error("Error updating event status: ", err)
-				}
+				er.processEvent(event)
 			}
 		}
+	}
+}
+
+func (er *EventReader) processEvent(event models.Event) {
+	switch event.EventType {
+	case "MONTHLY_RETURN_NOTIFICATION":
+	case "MATURITY_RETURN_NOTIFICATION":
+		er.handleReturnNotification(event)
+	default:
+		logger.Sugar.Errorf("Unknown event type: %s", event.EventType)
+	}
+}
+
+func (er *EventReader) handleReturnNotification(event models.Event) {
+	err := er.telegram.SendMessage(event.Message)
+
+	if err != nil {
+		logger.Sugar.Errorf("Error sending telegram message for event: %d.\n%+v", event.ID, err)
+	}
+
+	err = er.eventRepo.UpdateStatus(event.ID)
+
+	if err != nil {
+		logger.Sugar.Errorf("Error updating event status for event: %d.\n%+v", event.ID, err)
 	}
 }
