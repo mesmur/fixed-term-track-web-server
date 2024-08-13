@@ -99,9 +99,10 @@ func (s *fixedTermService) scheduleMonthlyEvents(fixedTerm *models.FixedTerm) er
 	// So the first return date would be one month after that
 	firstReturnDate := time.Date(fixedTerm.OpenDate.Year(), fixedTerm.OpenDate.Month()+2, 1, 0, 0, 0, 0, time.UTC)
 
-	// Schedule events for each month until the maturity date and one more
+	// Schedule events for each month until the maturity date
 	for date := firstReturnDate; !date.After(fixedTerm.MaturityDate); date = date.AddDate(0, 1, 0) {
-		msg := fmt.Sprintf("Check on your Term FixedTerm %s from %s.\nThere should be a monthly return :)\n\nDeposit ID: %s", fixedTerm.BankTermID, fixedTerm.Bank, strconv.Itoa(int(fixedTerm.ID)))
+		estimatedReturn := (fixedTerm.Amount * (fixedTerm.APY / 100)) / 12
+		msg := fmt.Sprintf("Check on your Term FixedTerm %s from %s.\nThere should be a monthly return of %.2f %s (estimated) :)\n\nFixed Term ID: %s", fixedTerm.BankTermID, fixedTerm.Bank, estimatedReturn, fixedTerm.Currency, strconv.Itoa(int(fixedTerm.ID)))
 
 		event := models.Event{
 			ResourceID:    fixedTerm.ID,
@@ -121,7 +122,8 @@ func (s *fixedTermService) scheduleMonthlyEvents(fixedTerm *models.FixedTerm) er
 }
 
 func (s *fixedTermService) scheduleMaturityEvent(fixedTerm *models.FixedTerm) error {
-	msg := fmt.Sprintf("Check on your Term FixedTerm %s from %s.\nThere should be a maturity return :)\n\nDeposit ID: %s", fixedTerm.BankTermID, fixedTerm.Bank, strconv.Itoa(int(fixedTerm.ID)))
+	estimatedReturn := (fixedTerm.Amount * (fixedTerm.APY / 100)) * float64(fixedTerm.Period/12)
+	msg := fmt.Sprintf("Check on your Term FixedTerm %s from %s.\nThere should be a maturity return of %.2f %s (estimated) :)\n\nFixed Term ID: %s", fixedTerm.BankTermID, fixedTerm.Bank, estimatedReturn, fixedTerm.Currency, strconv.Itoa(int(fixedTerm.ID)))
 	event := models.Event{
 		ResourceID:    fixedTerm.ID,
 		ScheduledTime: fixedTerm.MaturityDate,
