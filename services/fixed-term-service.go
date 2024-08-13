@@ -1,6 +1,7 @@
 package services
 
 import (
+	"errors"
 	"fmt"
 	"strconv"
 	"time"
@@ -62,11 +63,18 @@ func (s *fixedTermService) FindReturnByID(fixedTermID, returnId uint) (*models.F
 }
 
 func (s *fixedTermService) CreateReturn(fixedTermReturn *models.FixedTermReturn) error {
-	// Manually calculate teh amount and return
 	var fixedTerm, err = s.fixedTermRepository.FindByID(fixedTermReturn.FixedTermID)
 
 	if err != nil {
 		return err
+	}
+
+	if fixedTermReturn.Date.Before(fixedTerm.OpenDate) {
+		return errors.New("A return cannot be created before the open date of the Fixed Term")
+	}
+
+	if fixedTermReturn.Date.After(fixedTerm.MaturityDate) {
+		return errors.New("A return cannot be created after the maturity date of the Fixed Term")
 	}
 
 	fixedTermReturn.Amount = fixedTermReturn.Interest - fixedTermReturn.WithholdingTax
