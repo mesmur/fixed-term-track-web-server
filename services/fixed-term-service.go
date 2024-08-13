@@ -101,6 +101,7 @@ func (s *fixedTermService) scheduleMonthlyEvents(fixedTerm *models.FixedTerm) er
 
 	// Schedule events for each month until the maturity date
 	for date := firstReturnDate; !date.After(fixedTerm.MaturityDate); date = date.AddDate(0, 1, 0) {
+		// Assumes monthly returns are constant throughout the period - unlikely in real life
 		estimatedReturn := (fixedTerm.Amount * (fixedTerm.APY / 100)) / 12
 		msg := fmt.Sprintf("Check on your Term FixedTerm %s from %s.\nThere should be a monthly return of %.2f %s (estimated) :)\n\nFixed Term ID: %s", fixedTerm.BankTermID, fixedTerm.Bank, estimatedReturn, fixedTerm.Currency, strconv.Itoa(int(fixedTerm.ID)))
 

@@ -28,7 +28,11 @@ func main() {
 	fixedTermService := services.NewFixedTermService(fixedTermRepository, fixedTermReturnRepository, eventRepository)
 	fixedTermController := controllers.NewFixedTermController(fixedTermService)
 
-	router := routes.SetupRouter(fixedTermController)
+	metricsRepository := repositories.NewMetricsRepository(db)
+	metricsService := services.NewMetricsService(metricsRepository)
+	metricsController := controllers.NewMetricsController(metricsService)
+
+	router := routes.SetupRouter(fixedTermController, metricsController)
 
 	telegramSdk := clients.CreateTelegramSdk(config.AppConfig.TelegramBotToken, config.AppConfig.TelegramChatID)
 	eventReader := cron.NewEventReader(eventRepository, telegramSdk)

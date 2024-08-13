@@ -8,7 +8,7 @@ import (
 	"github.com/MESMUR/fixed-term-track-web-server/pkg/logger"
 )
 
-func SetupRouter(fixedTermController *controllers.FixedTermController) *gin.Engine {
+func SetupRouter(fixedTermController *controllers.FixedTermController, metricsController *controllers.MetricsController) *gin.Engine {
 	logger.Log.Info("Setting up routes")
 
 	router := gin.New()
@@ -25,6 +25,12 @@ func SetupRouter(fixedTermController *controllers.FixedTermController) *gin.Engi
 		fixedTermRoutes.PUT("/", fixedTermController.UpdateFixedTerm)
 		fixedTermRoutes.GET("/:fixed_term_id/returns/:return_id", fixedTermController.GetReturnByID)
 		fixedTermRoutes.POST("/:fixed_term_id/returns", fixedTermController.CreateReturn)
+	}
+
+	metricsRoutes := router.Group("/metrics")
+	{
+		metricsRoutes.GET("/total_invested_to_date", metricsController.GetTotalInvestedToDate)
+		metricsRoutes.GET("/total_currently_invested", metricsController.GetTotalCurrentlyInvested)
 	}
 
 	return router
