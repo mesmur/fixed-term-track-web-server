@@ -8,7 +8,7 @@ import (
 
 type FixedTermReturnRepository interface {
 	FindByID(fixedTermID, returnId uint) (*models.FixedTermReturn, error)
-	Create(fixedTermReturn *models.FixedTermReturn) (*models.FixedTermReturn, error)
+	Create(fixedTermReturn *models.FixedTermReturn) error
 }
 
 type fixedTermReturnRepository struct {
@@ -30,9 +30,9 @@ func (r *fixedTermReturnRepository) FindByID(fixedTermId, returnId uint) (*model
 	return &fixedTermReturn, nil
 }
 
-func (r *fixedTermReturnRepository) Create(fixedTermReturn *models.FixedTermReturn) (*models.FixedTermReturn, error) {
+func (r *fixedTermReturnRepository) Create(fixedTermReturn *models.FixedTermReturn) error {
 	if err := r.db.Create(fixedTermReturn).Error; err != nil {
-		return nil, err
+		return err
 	}
-	return fixedTermReturn, nil
+	return nil
 }

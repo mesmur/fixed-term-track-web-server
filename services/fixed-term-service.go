@@ -11,10 +11,10 @@ import (
 
 type FixedTermService interface {
 	FindByID(id uint) (*models.FixedTerm, error)
-	Create(fixedTerm *models.FixedTerm) (*models.FixedTerm, error)
-	Update(fixedTerm *models.FixedTerm) (*models.FixedTerm, error)
+	Create(fixedTerm *models.FixedTerm) error
+	Update(fixedTerm *models.FixedTerm) error
 	FindReturnByID(fixedTermID, returnId uint) (*models.FixedTermReturn, error)
-	CreateReturn(fixedTermReturn *models.FixedTermReturn) (*models.FixedTermReturn, error)
+	CreateReturn(fixedTermReturn *models.FixedTermReturn) error
 }
 
 type fixedTermService struct {
@@ -31,13 +31,13 @@ func (s *fixedTermService) FindByID(id uint) (*models.FixedTerm, error) {
 	return s.fixedTermRepository.FindByID(id)
 }
 
-func (s *fixedTermService) Create(fixedTerm *models.FixedTerm) (*models.FixedTerm, error) {
+func (s *fixedTermService) Create(fixedTerm *models.FixedTerm) error {
 	fixedTerm.MaturityDate = calculateMaturityDate(fixedTerm)
 
-	fixedTerm, err := s.fixedTermRepository.Create(fixedTerm)
+	err := s.fixedTermRepository.Create(fixedTerm)
 
 	if err != nil {
-		return nil, err
+		return err
 	}
 
 	if fixedTerm.ReturnType == "MATURITY" {
@@ -47,13 +47,13 @@ func (s *fixedTermService) Create(fixedTerm *models.FixedTerm) (*models.FixedTer
 	}
 
 	if err != nil {
-		return nil, err
+		return err
 	}
 
-	return fixedTerm, nil
+	return nil
 }
 
-func (s *fixedTermService) Update(fixedTerm *models.FixedTerm) (*models.FixedTerm, error) {
+func (s *fixedTermService) Update(fixedTerm *models.FixedTerm) error {
 	return s.fixedTermRepository.Update(fixedTerm)
 }
 
@@ -61,12 +61,12 @@ func (s *fixedTermService) FindReturnByID(fixedTermID, returnId uint) (*models.F
 	return s.fixedTermReturnRepository.FindByID(fixedTermID, returnId)
 }
 
-func (s *fixedTermService) CreateReturn(fixedTermReturn *models.FixedTermReturn) (*models.FixedTermReturn, error) {
+func (s *fixedTermService) CreateReturn(fixedTermReturn *models.FixedTermReturn) error {
 	// Manually calculate teh amount and return
 	var fixedTerm, err = s.fixedTermRepository.FindByID(fixedTermReturn.FixedTermID)
 
 	if err != nil {
-		return nil, err
+		return err
 	}
 
 	fixedTermReturn.Amount = fixedTermReturn.Interest - fixedTermReturn.WithholdingTax

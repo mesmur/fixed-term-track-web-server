@@ -8,8 +8,8 @@ import (
 
 type FixedTermRepository interface {
 	FindByID(id uint) (*models.FixedTerm, error)
-	Create(fixedTerm *models.FixedTerm) (*models.FixedTerm, error)
-	Update(fixedTerm *models.FixedTerm) (*models.FixedTerm, error)
+	Create(fixedTerm *models.FixedTerm) error
+	Update(fixedTerm *models.FixedTerm) error
 }
 
 type fixedTermRepository struct {
@@ -28,16 +28,16 @@ func (r *fixedTermRepository) FindByID(id uint) (*models.FixedTerm, error) {
 	return &fixedTerm, nil
 }
 
-func (r *fixedTermRepository) Create(fixedTerm *models.FixedTerm) (*models.FixedTerm, error) {
+func (r *fixedTermRepository) Create(fixedTerm *models.FixedTerm) error {
 	if err := r.db.Create(fixedTerm).Error; err != nil {
-		return nil, err
+		return err
 	}
-	return fixedTerm, nil
+	return nil
 }
 
-func (r *fixedTermRepository) Update(fixedTerm *models.FixedTerm) (*models.FixedTerm, error) {
+func (r *fixedTermRepository) Update(fixedTerm *models.FixedTerm) error {
 	if err := r.db.Save(fixedTerm).Error; err != nil {
-		return nil, err
+		return err
 	}
-	return fixedTerm, nil
+	return nil
 }

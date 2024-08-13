@@ -9,41 +9,43 @@ import (
 	"github.com/MESMUR/fixed-term-track-web-server/repositories"
 )
 
-type EventReader struct {
+// EventReader - is responsible for reading events from the database and processing them
+type EventReader interface {
+	CheckEvents()
+}
+
+type eventReader struct {
 	eventRepo repositories.EventRepository
 	telegram  clients.TelegramSdk
 }
 
-func NewEventReader(eventRepo repositories.EventRepository, telegram clients.TelegramSdk) *EventReader {
-	return &EventReader{eventRepo: eventRepo, telegram: telegram}
+func NewEventReader(eventRepo repositories.EventRepository, telegram clients.TelegramSdk) EventReader {
+	return &eventReader{eventRepo: eventRepo, telegram: telegram}
 }
 
-func (er *EventReader) CheckEvents() {
+func (er *eventReader) CheckEvents() {
 	ticker := time.NewTicker(8 * time.Hour)
 	defer ticker.Stop()
 
-	for {
-		select {
-		case <-ticker.C:
-			logger.Log.Info("Checking for scheduled events")
+	for range ticker.C {
+		logger.Log.Info("Checking for scheduled events")
 
-			events, err := er.eventRepo.FindScheduledEvents()
+		events, err := er.eventRepo.FindScheduledEvents()
 
-			if err != nil {
-				logger.Sugar.Error("Error fetching scheduled events: ", err)
-				continue
-			}
+		if err != nil {
+			logger.Sugar.Error("Error fetching scheduled events: ", err)
+			continue
+		}
 
-			for _, event := range events {
-				logger.Sugar.Infof("Processing event: %v", event)
+		for _, event := range events {
+			logger.Sugar.Infof("Processing event: %v", event)
 
-				er.processEvent(event)
-			}
+			er.processEvent(event)
 		}
 	}
 }
 
-func (er *EventReader) processEvent(event models.Event) {
+func (er *eventReader) processEvent(event models.Event) {
 	switch event.EventType {
 	case "MONTHLY_RETURN_NOTIFICATION":
 	case "MATURITY_RETURN_NOTIFICATION":
@@ -53,7 +55,7 @@ func (er *EventReader) processEvent(event models.Event) {
 	}
 }
 
-func (er *EventReader) handleReturnNotification(event models.Event) {
+func (er *eventReader) handleReturnNotification(event models.Event) {
 	err := er.telegram.SendMessage(event.Message)
 
 	if err != nil {
