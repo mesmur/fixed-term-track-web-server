@@ -6,7 +6,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/MESMUR/fixed-term-track-web-server/internal/database/models"
+	"github.com/MESMUR/fixed-term-track-web-server/internal/models"
 	"github.com/MESMUR/fixed-term-track-web-server/services"
 )
 

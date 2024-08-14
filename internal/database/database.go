@@ -6,8 +6,10 @@ import (
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 
+	glogger "gorm.io/gorm/logger"
+
 	"github.com/MESMUR/fixed-term-track-web-server/config"
-	"github.com/MESMUR/fixed-term-track-web-server/internal/database/models"
+	"github.com/MESMUR/fixed-term-track-web-server/internal/models"
 	"github.com/MESMUR/fixed-term-track-web-server/pkg/logger"
 )
 
@@ -24,7 +26,9 @@ func ConnectPostgres() *gorm.DB {
 		config.AppConfig.DBTimezone,
 	)
 
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
+		Logger: glogger.Default.LogMode(glogger.Info),
+	})
 
 	if err != nil {
 		logger.Sugar.Fatalf("Failed to connect to database: %v", err)

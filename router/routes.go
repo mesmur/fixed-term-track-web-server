@@ -31,6 +31,9 @@ func SetupRouter(fixedTermController *controllers.FixedTermController, metricsCo
 	{
 		metricsRoutes.GET("/total_invested_to_date", metricsController.GetTotalInvestedToDate)
 		metricsRoutes.GET("/total_currently_invested", metricsController.GetTotalCurrentlyInvested)
+		metricsRoutes.GET("/total_maturing_in_months", metricsController.GetTotalMaturingInMonths)
+		metricsRoutes.GET("/total_returns_to_date", metricsController.GetTotalReturnsToDate)
+		metricsRoutes.GET("/total_returns_this_year", metricsController.GetTotalReturnsThisYear)
 	}
 
 	return router

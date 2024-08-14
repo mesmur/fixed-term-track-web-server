@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 
@@ -17,25 +18,64 @@ func NewMetricsController(service services.MetricsService) *MetricsController {
 }
 
 func (c *MetricsController) GetTotalInvestedToDate(ctx *gin.Context) {
-	var total float64
-	total, err := c.service.GetTotalInvestedToDate()
+	metric, err := c.service.GetTotalInvestedToDate()
 
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Unable to get total invested to date"})
 		return
 	}
 
-	ctx.JSON(http.StatusOK, total)
+	ctx.JSON(http.StatusOK, metric)
 }
 
 func (c *MetricsController) GetTotalCurrentlyInvested(ctx *gin.Context) {
-	var total float64
-	total, err := c.service.GetTotalCurrentlyInvested()
+	metric, err := c.service.GetTotalCurrentlyInvested()
 
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Unable to get total currently invested"})
 		return
 	}
 
-	ctx.JSON(http.StatusOK, total)
+	ctx.JSON(http.StatusOK, metric)
+}
+
+func (c *MetricsController) GetTotalMaturingInMonths(ctx *gin.Context) {
+	monthsStr := ctx.Query("months")
+	months, err := strconv.Atoi(monthsStr)
+
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "months must be an integer"})
+		return
+	}
+
+	metric, err := c.service.GetTotalMaturingInMonths(months)
+
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Unable to get total maturing in months"})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, metric)
+}
+
+func (c *MetricsController) GetTotalReturnsToDate(ctx *gin.Context) {
+	metric, err := c.service.GetTotalReturnsToDate()
+
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Unable to get total returns to date"})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, metric)
+}
+
+func (c *MetricsController) GetTotalReturnsThisYear(ctx *gin.Context) {
+	metric, err := c.service.GetTotalReturnsThisYear()
+
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Unable to get total returns this year"})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, metric)
 }

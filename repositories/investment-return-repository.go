@@ -3,7 +3,7 @@ package repositories
 import (
 	"gorm.io/gorm"
 
-	"github.com/MESMUR/fixed-term-track-web-server/internal/database/models"
+	"github.com/MESMUR/fixed-term-track-web-server/internal/models"
 )
 
 type FixedTermReturnRepository interface {

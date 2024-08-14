@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/MESMUR/fixed-term-track-web-server/internal/database/models"
+	"github.com/MESMUR/fixed-term-track-web-server/internal/models"
 	"github.com/MESMUR/fixed-term-track-web-server/repositories"
 )
 
@@ -78,7 +78,8 @@ func (s *fixedTermService) CreateReturn(fixedTermReturn *models.FixedTermReturn)
 	}
 
 	fixedTermReturn.Amount = fixedTermReturn.Interest - fixedTermReturn.WithholdingTax
-	fixedTermReturn.AmountPercentage = fixedTermReturn.Amount / fixedTerm.Amount
+	fixedTermReturn.AmountPercentage = (fixedTermReturn.Amount / fixedTerm.Amount) * 100
+	fixedTermReturn.Currency = fixedTerm.Currency
 
 	return s.fixedTermReturnRepository.Create(fixedTermReturn)
 }
