@@ -1,6 +1,15 @@
 package main
 
 import (
+	"context"
+	"errors"
+	"log"
+	"net/http"
+	"os"
+	"os/signal"
+	"syscall"
+	"time"
+
 	"github.com/gin-gonic/gin"
 
 	"github.com/MESMUR/fixed-term-track-web-server/config"
@@ -40,11 +49,37 @@ func main() {
 
 	logger.Sugar.Infof("Starting server on port %s", config.AppConfig.Port)
 
-	err := router.Run(config.AppConfig.Port)
-
-	if err != nil {
-		panic(err)
+	/**
+	 * Graceful shutdown logic taken from the Gin documentation
+	 * https://github.com/gin-gonic/examples/blob/master/graceful-shutdown/graceful-shutdown/notify-without-context/server.go
+	 */
+	srv := &http.Server{
+		Addr:    config.AppConfig.Port,
+		Handler: router,
 	}
+
+	go func() {
+		if err := srv.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
+			log.Fatalf("Failed to listen to Addr: %s\n", err)
+		}
+	}()
+
+	quit := make(chan os.Signal, 1)
+
+	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
+	<-quit
+
+	logger.Sugar.Info("Shutting down server...")
+
+	// The context is used to inform the server it has 5 seconds to finish the request it is currently handling
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	if err := srv.Shutdown(ctx); err != nil {
+		logger.Sugar.Fatal("Server forced to shut down: ", err)
+	}
+
+	logger.Log.Info("Server exiting")
 }
 
 func init() {
