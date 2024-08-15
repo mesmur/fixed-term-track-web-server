@@ -1,5 +1,15 @@
 # Fixed Term Track - Web Server
 
+![Go Version](https://img.shields.io/github/go-mod/go-version/mesmur/fixed-term-track-web-server)
+![License](https://img.shields.io/github/license/mesmur/fixed-term-track-web-server)
+![Go Report Card](https://goreportcard.com/badge/github.com/mesmur/fixed-term-track-web-server)
+
+![Last Commit](https://img.shields.io/github/last-commit/mesmur/fixed-term-track-web-server)
+
+![Issues](https://img.shields.io/github/issues/mesmur/fixed-term-track-web-server)
+![Pull Requests](https://img.shields.io/github/issues-pr/mesmur/fixed-term-track-web-server)
+![Pull Requests](https://img.shields.io/github/issues-pr/mesmur/fixed-term-track-web-server)
+
 ## Status
 
 - Development, `In Progress` (In Progress | Maintaining | Complete)
@@ -21,6 +31,20 @@ Aaaand how to interface with it, although I'm just leaning towards a mobile app 
 
 ## Features
 
+- [x] Creating a record of investment
+- [x] Creating a record of investment returns
+- [x] Retrieving metrics on investments and associated returns
+- [x] Auto-scheduling reminders for upcoming returns through telegram (so you don't forget to check ;>)
+- [ ] Validations on input data
+- [ ] Error handling
+- Comprehensive Testing
+  - [ ] Unit Tests
+  - [ ] Integrations
+  - [ ] E2E Tests
+- Documentation
+  - [ ] GoDoc
+  - [ ] Openapi Specification for APIs
+
 ## Technologies Used
 
 ### Language
@@ -29,15 +53,13 @@ Aaaand how to interface with it, although I'm just leaning towards a mobile app 
 
 Some nifty parts of it:
 
-- Scheduling: Native `time.Ticker` with a PostgreSQL backed job queue running on a separate goroutine
+- Scheduling: Native `time.Ticker` with a PG backed job queue running on a separate goroutine
 
 ### Technologies
 
-- Database: PostgreSQL
-- CI/CD: GitHub Actions (WIP)
-- Build: --
-- Deployment: --
-- Notifications: Telegram Bot API
+- Database: PostgreSQL (courtesy of [Supabase](https://supabase.com/))
+- Deployment: (TBD)
+- Notifications: [Telegram Bot API](https://core.telegram.org/bots/api)
 
 ### Tools and Libraries
 
@@ -45,13 +67,27 @@ Some nifty parts of it:
 - Web Framework: [Gin](https://github.com/gin-gonic/gin)
 - Logging: [Zap](https://github.com/uber-go/zap)
 - Environment Management: [Viper](https://github.com/spf13/viper)
-- Development
+- Development:
     - [Docker (Compose)](https://docs.docker.com/compose/) for local development
     - [Air](https://github.com/air-verse/air) for hot reloading
     - [Just](https://github.com/casey/just) for command running
     - [Mise](https://github.com/jdx/mise) for version management
 
-## Using
-
 ## Developing
 
+Prerequisites:
+- Go 1.22
+- The tools listed above under `Development` (`mise` is optional)
+
+Do the below:
+
+```bash
+go mod tidy # Get the dependencies
+just dev # Starts the server
+```
+
+## Contributing
+
+I doubt anyone's interested in contributing to this, but if you are, feel free to fork and PR.
+
+If you do use this project as a reference, let me know! I'd love to hear about it. You can create an `issue` to raise any bugs or suggested features.
