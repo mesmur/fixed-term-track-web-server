@@ -10,10 +10,10 @@
 ![Pull Requests](https://img.shields.io/github/issues-pr/mesmur/fixed-term-track-web-server)
 ![Pull Requests](https://img.shields.io/github/issues-pr/mesmur/fixed-term-track-web-server)
 
+
 ## Status
 
-- Development, `In Progress` (In Progress | Maintaining | Complete)
-- In Production, `False` (True | False)
+- Development, `In Progress` (In Progress | Maintaining | Archived)
 
 ## Description
 
@@ -53,8 +53,7 @@ Aaaand how to interface with it, although I'm just leaning towards a mobile app 
 
 ### Technologies
 
-- Database: PostgreSQL
-- Deployment: (TBD)
+- Database: [PostgreSQL](https://www.postgresql.org/)
 - Notifications: [Telegram Bot API](https://core.telegram.org/bots/api)
 
 ### Tools and Libraries
