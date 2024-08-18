@@ -29,9 +29,12 @@ func LoadConfig() {
 	logger.Log.Info("Loading config")
 
 	viper.SetConfigFile(".env")
-	err := viper.ReadInConfig()
-	if err != nil {
-		log.Fatalf("Error loading .env file: %v", err)
+	viper.SetConfigType("env")
+
+	viper.AutomaticEnv()
+
+	if err := viper.ReadInConfig(); err != nil {
+		log.Printf("No .env file found, falling back to environment variables: %v", err)
 	}
 
 	AppConfig = &Config{

@@ -51,13 +51,9 @@ Aaaand how to interface with it, although I'm just leaning towards a mobile app 
 
 **Golang**
 
-Some nifty parts of it:
-
-- Scheduling: Native `time.Ticker` with a PG backed job queue running on a separate goroutine
-
 ### Technologies
 
-- Database: PostgreSQL (courtesy of [Supabase](https://supabase.com/))
+- Database: PostgreSQL
 - Deployment: (TBD)
 - Notifications: [Telegram Bot API](https://core.telegram.org/bots/api)
 
@@ -78,13 +74,24 @@ Some nifty parts of it:
 Prerequisites:
 - Go 1.22
 - The tools listed above under `Development` (`mise` is optional)
+- A telegram bot token and your chat ID in the `.env` file
 
 Do the below:
 
 ```bash
-go mod tidy # Get the dependencies
+go mod download # Get the dependencies
+go mod verify # Verify the dependencies
+cp .env.example .env # Copy the example env file, make sure to get your telegram bot token!
 just dev # Starts the server
 ```
+
+## Examples
+
+Check the `examples` directory for examples on setting up the server.
+
+1. `running-server-with-compose`
+   1. There's an example of a compose file that runs the server with a postgres instance, it pulls the latest image from dockerhub
+   2. The `.env` is slightly different (since it connects to postgres on the internal network), and the telegram credentials are required
 
 ## Contributing
 
