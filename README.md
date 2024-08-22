@@ -37,12 +37,12 @@ Aaaand how to interface with it, although I'm just leaning towards a mobile app 
 - [x] Auto-scheduling reminders for upcoming returns through telegram (so you don't forget to check ;>)
 - [ ] Validations on input data
 - [ ] Error handling
+- [x] Docker Image for deployment
 - Comprehensive Testing
   - [ ] Unit Tests
-  - [ ] Integrations
-  - [ ] E2E Tests
+  - [ ] Integration Tests
 - Documentation
-  - [ ] GoDoc
+  - [ ] GoDoc (?)
   - [ ] Openapi Specification for APIs
 
 ## Technologies Used
@@ -94,6 +94,8 @@ Check the `examples` directory for examples on setting up the server.
 
 ## Contributing
 
-I doubt anyone's interested in contributing to this, but if you are, feel free to fork and PR.
+Feel free to fork and raise a PR if you're interested in contributing to this project :)
 
-If you do use this project as a reference, let me know! I'd love to hear about it. You can create an `issue` to raise any bugs or suggested features.
+You can create an `issue` to raise any bugs or have a suggestion.
+
+If you do use this project as a reference, let me know! I'd love to hear about it. 

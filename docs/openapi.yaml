@@ -1,0 +1,145 @@
+openapi: 3.0.3
+info:
+  title: Fixed Term Track API
+  description: API for tracking fixed term investments and their returns.
+  version: 0.0.1
+
+servers:
+  - url: http://localhost:3000
+    description: Local development server
+
+paths:
+  /fixed_terms:
+    post:
+      summary: Create a new fixed term
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateFixedTerm'
+      responses:
+        '201':
+          $ref: '#/components/responses/StoredFixedTerm'
+  /fixed_terms/{id}:
+    get:
+      summary: Get a fixed term by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/StoredFixedTerm'
+        '404':
+          description: Investment not found
+components:
+  responses:
+    StoredFixedTerm:
+      description: Fixed term stored in the database
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/FixedTerm'
+    StoredFixedTermReturn:
+      description: Fixed term return stored in the database
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/FixedTermReturn'
+  schemas:
+    Base:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/ID'
+        created_at:
+          $ref: '#/components/schemas/Date'
+        updated_at:
+          $ref: '#/components/schemas/Date'
+    CreateFixedTerm:
+      type: object
+      properties:
+        bank:
+          type: string
+          example: "Bank of Example"
+        bank_term_id:
+          $ref: '#/components/schemas/ID'
+        amount:
+          $ref: '#/components/schemas/Amount'
+        currency:
+          $ref: '#/components/schemas/Currency'
+        period:
+          type: number
+          example: 12
+          minimum: 1
+        type:
+          type: string
+          enum: [ "FIXED_DEPOSIT", "SHARE_CERTIFICATE" ]
+          example: "FIXED_DEPOSIT"
+        return_type:
+          type: string
+          enum: [ "MONTHLY", "MATURITY" ]
+          example: "MONTHLY"
+        apy:
+          $ref: '#/components/schemas/Amount'
+        open_date:
+          $ref: '#/components/schemas/Date'
+    DerivedFixedTerm:
+      type: object
+      properties:
+        maturity_date:
+          $ref: '#/components/schemas/Date'
+    FixedTerm:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Base'
+        - $ref: '#/components/schemas/CreateFixedTerm'
+        - $ref: '#/components/schemas/DerivedFixedTerm'
+        - type: array
+          items:
+            $ref: '#/components/schemas/FixedTermReturn'
+    CreateFixedTermReturn:
+      type: object
+      properties:
+        interest:
+          $ref: '#/components/schemas/Amount'
+        withholding_tax:
+          $ref: '#/components/schemas/Amount'
+        date:
+          $ref: '#/components/schemas/Date'
+    DerivedFixedTermReturn:
+      type: object
+      properties:
+        fixed_term_id:
+          $ref: '#/components/schemas/ID'
+        amount:
+          $ref: '#/components/schemas/Amount'
+        amount_percentage:
+          $ref: '#/components/schemas/Amount'
+        currency:
+          $ref: '#/components/schemas/Currency'
+    FixedTermReturn:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Base'
+        - $ref: '#/components/schemas/CreateFixedTermReturn'
+        - $ref: '#/components/schemas/DerivedFixedTermReturn'
+    ID:
+      type: string
+      example: "12345"
+    Date:
+      type: string
+      format: date
+      example: "2023-01-01"
+    Currency:
+      type: string
+      enum: [ "USD", "EUR", "GBP", "LKR", "IDR" ]
+      example: "USD"
+    Amount:
+      type: number
+      format: float
+      example: 1000.00
+      minimum: 0.01
